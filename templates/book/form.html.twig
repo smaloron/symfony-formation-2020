@@ -2,7 +2,33 @@
 
 {% block body %}
 
-    {{ form(bookForm) }}
+    {{ form_start(bookForm) }}
+        <div class="row">
+            <div class="col-md-6">
+                {{ form_row(bookForm.title) }}
+            </div>
+            <div class="col-md-6">
+                {{ form_row(bookForm.author) }}
+            </div>
+            <div class="col-md-3">
+                {{ form_row(bookForm.price) }}
+            </div>
+            <div class="col-md-3">
+                {{ form_row(bookForm.genre) }}
+            </div>
+            <div class="col-md-3">
+                {{ form_row(bookForm.publisher) }}
+            </div>
+            <div class="col-md-3">
+                {{ form_row(bookForm.publishedAt) }}
+            </div>
+
+
+        </div>
+
+
+    {{ form_end(bookForm) }}
+
 
 {% endblock %}
 
