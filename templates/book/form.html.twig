@@ -3,6 +3,13 @@
 {% block body %}
 
     {{ form_start(bookForm) }}
+
+        {% if not bookForm.vars.valid %}
+            <div class="alert alert-danger mt-4 mb-2">
+                {{ form_errors(bookForm) }}
+            </div>
+        {% endif %}
+
         <div class="row">
             <div class="col-md-6">
                 {{ form_row(bookForm.title) }}

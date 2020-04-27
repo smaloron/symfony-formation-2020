@@ -12,7 +12,7 @@ class BookFixtures extends Fixture
 {
 
     private  array $authorList = [
-        "Aristote", "Socrate", "Jean-Paul Sartre", "Pierre de Ronsard", "Sophie Calle", "Anne Rice"
+        "sand","hugo","auster"
     ];
 
     private array $genreList = [
@@ -47,7 +47,7 @@ class BookFixtures extends Fixture
 
     private function createBook(){
         $book = new Book();
-        $book->setAuthor($this->chooseOne($this->authorList))
+        $book->setAuthor($this->chooseOneAuthor())
             ->setTitle($this->faker->catchPhrase())
             ->setPublishedAt($this->faker->dateTimeThisCentury())
             ->setPrice($this->faker->numberBetween(500, 90000)/100)
@@ -57,6 +57,11 @@ class BookFixtures extends Fixture
 
 
         return $book;
+    }
+
+    private function chooseOneAuthor(){
+        $key = "author_". $this->chooseOne($this->authorList);
+        return $this->getReference($key);
     }
 
     private function chooseOne($collection){

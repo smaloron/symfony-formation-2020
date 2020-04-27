@@ -2,7 +2,9 @@
 
 namespace App\Form;
 
+use App\Entity\Author;
 use App\Entity\Book;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
@@ -18,7 +20,13 @@ class BookType extends AbstractType
     {
         $builder
             ->add('title', TextType::class, ['label' => 'Titre du livre', 'required' => true])
-            ->add('author', TextType::class, ['label' => 'Auteur du livre'])
+            ->add('author', EntityType::class, [
+                'label' => 'Auteur du livre',
+                'class' => Author::class,
+                'placeholder' => 'Choisissez un auteur',
+                //'multiple' => false,
+                'expanded' => true
+            ])
             ->add('publishedAt', DateType::class, ['label' => 'Date de publication', 'widget' => 'single_text'])
             ->add('price', NumberType::class, ['label' => 'Prix'])
             ->add('genre', TextType::class, ['label' => 'Genre du livre'])
