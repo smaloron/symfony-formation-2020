@@ -2,13 +2,16 @@
 
 namespace App\DataFixtures;
 
+use App\Entity\Author;
 use App\Entity\Book;
+use App\Entity\Publisher;
 use Doctrine\Bundle\FixturesBundle\Fixture;
+use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 use Faker\Factory;
 use Faker\Generator;
 
-class BookFixtures extends Fixture
+class BookFixtures extends Fixture implements OrderedFixtureInterface
 {
 
     private  array $authorList = [
@@ -20,7 +23,7 @@ class BookFixtures extends Fixture
     ];
 
     private array $publisherList = [
-        "Grasset", "Hachette", "Le Seuil", "PUF"
+        "grasset", "hachette", "seuil", "puf"
     ];
 
     private Generator $faker;
@@ -52,19 +55,29 @@ class BookFixtures extends Fixture
             ->setPublishedAt($this->faker->dateTimeThisCentury())
             ->setPrice($this->faker->numberBetween(500, 90000)/100)
             ->setGenre($this->chooseOne($this->genreList))
-            ->setPublisher($this->chooseOne($this->publisherList))
+            ->setPublisher($this->chooseOnePublisher())
             ->setText($this->faker->paragraph(8));
 
 
         return $book;
     }
 
-    private function chooseOneAuthor(){
+    private function chooseOnePublisher(): Publisher{
+        $key = "publisher_". $this->chooseOne($this->publisherList);
+        return $this->getReference($key);
+    }
+
+    private function chooseOneAuthor(): Author{
         $key = "author_". $this->chooseOne($this->authorList);
         return $this->getReference($key);
     }
 
     private function chooseOne($collection){
        return $collection[array_rand($collection)] ;
+    }
+
+    public function getOrder()
+    {
+        return 10;
     }
 }
