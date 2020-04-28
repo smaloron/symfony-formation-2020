@@ -6,8 +6,12 @@
     <h1>Liste des livres</h1>
     <table class="table table-bordered table-striped">
         <tr>
-            <th>Titre</th>
-            <th>Auteur</th>
+            <th>
+                {{ knp_pagination_sortable(bookList, 'Titre', 'b.title') }}
+            </th>
+            <th>
+                Auteur
+            </th>
         </tr>
 
         {% for book in bookList %}
@@ -21,4 +25,6 @@
             </tr>
         {% endfor %}
     </table>
+
+    {{ knp_pagination_render(bookList) }}
 {% endblock %}

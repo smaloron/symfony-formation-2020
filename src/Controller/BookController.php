@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Book;
 use App\Form\BookType;
 use App\Repository\BookRepository;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -19,14 +20,20 @@ class BookController extends AbstractController
     /**
      * @Route("-list", name="book-list")
      */
-    public function index()
+    public function index(PaginatorInterface $paginator, Request $request)
     {
         //Liste de tous les livres
         $repository = $this->getDoctrine()->getRepository("App:Book");
-        $books = $repository->findAll();
+        $data = $repository->findAllPaginated();
+
+        $books = $paginator->paginate(
+            $data,
+            $request->query->getInt('page', 1),
+            10
+        );
 
         return $this->render('book/index.html.twig', [
-            'bookList' => $books,
+            'bookList' => $books
         ]);
     }
 
