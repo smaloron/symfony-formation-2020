@@ -16,7 +16,11 @@
   {% for book in author.books %}
     <tr>
      <td>{{ book.title }}</td>
-     <td> {{ book.publisher.name }}</td>
+     <td>
+      <a href="{{ path('publisher-details', {'id': book.publisher.id}) }}">
+       {{ book.publisher.name }}
+      </a>
+     </td>
      <td> {{ book.genre }}</td>
     </tr>
   {% endfor %}

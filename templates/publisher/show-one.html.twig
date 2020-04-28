@@ -1,0 +1,33 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>{{ publisher.name }}</h1>
+
+    <h2>Ses livres ({{ publisher.books | length }})</h2>
+
+    <table class="table table-striped">
+        <tr>
+            <th>Titre</th>
+            <th>Auteur</th>
+            <th>Genre</th>
+        </tr>
+
+        {% for book in publisher.books %}
+            <tr>
+                <td>{{ book.title }}</td>
+                <td>
+                    <a href="{{ path('author-details', {'id': book.author.id}) }}">
+                        {{ book.author }}
+                    </a>
+                </td>
+                <td>{{ book.genre }}</td>
+            </tr>
+        {% endfor %}
+    </table>
+
+{% endblock %}
+
+{% block title %}
+
+{% endblock %}
+
