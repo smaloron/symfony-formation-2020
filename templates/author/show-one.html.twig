@@ -1,0 +1,30 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+ <h1>{{ author }}</h1>
+ <p>Né(e) le : {{ author.dateOfBirth | date('d/m/Y') }}</p>
+
+ <h2>Ses livres ({{ author.books | length }})</h2>
+
+ <table class="table table-striped">
+  <tr>
+   <th>Titre</th>
+   <th>Editeur</th>
+   <th>Genre</th>
+  </tr>
+
+  {% for book in author.books %}
+    <tr>
+     <td>{{ book.title }}</td>
+     <td> {{ book.publisher.name }}</td>
+     <td> {{ book.genre }}</td>
+    </tr>
+  {% endfor %}
+
+ </table>
+{% endblock %}
+
+{% block title %}
+
+{% endblock %}
+
