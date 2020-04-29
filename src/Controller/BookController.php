@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Book;
 use App\Form\BookType;
 use App\Repository\BookRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -32,18 +33,24 @@ class BookController extends AbstractController
             10
         );
 
+        $booksByYear = $repository->getBooksNumberByYear();
+
         return $this->render('book/index.html.twig', [
-            'bookList' => $books
+            'bookList' => $books,
+            'bookByYear' => $booksByYear
         ]);
     }
 
     /**
      * @Route("/new", name="book-new")
+     * @Route("/update/{id}", name="book-update", requirements={"id":"\d+"})
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function showForm(Request $request){
+    public function showForm(Request $request, Book $book = null){
         //Création d'une instance de Book
-        $book = new Book();
+        if($book == null){
+            $book = new Book();
+        }
 
         //Création du formulaire
         $form = $this->createForm(BookType::class, $book);
@@ -87,5 +94,18 @@ class BookController extends AbstractController
             'oldestBooks' => $oldestBooks->getResult(),
             'booksByGenre' => $bookPricesByGenre->getResult()
         ]);
+    }
+
+    /**
+     * @Route("/delete/{id}", name="book-delete", requirements={"id":"\d+"})
+     * @param Book $book
+     * @param EntityManagerInterface $em
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     */
+    public function delete(Book $book, EntityManagerInterface $em){
+        $em->remove($book);
+        $em->flush();
+        $this->addFlash("info", "Votre livre est supprimé");
+        return $this->redirectToRoute('book-list');
     }
 }

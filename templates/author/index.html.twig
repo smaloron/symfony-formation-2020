@@ -6,4 +6,24 @@
     <h1>Liste des auteurs</h1>
 
     <!-- Tableau des auteurs avec le nombre livres publiés -->
+    <table class="table table-striped">
+        <tr>
+            <th>Auteur</th>
+            <th>Nombre de livres</th>
+        </tr>
+
+        {% for author in authorList %}
+            <tr>
+                <td>
+                    <a href="{{ path('author-details', {'id': author.id}) }}">
+                        {{ author.firstName }} {{ author.name }}
+                    </a>
+                </td>
+                <td>
+                    {{ author.nbBooks }}
+                </td>
+            </tr>
+        {% endfor %}
+
+    </table>
 {% endblock %}

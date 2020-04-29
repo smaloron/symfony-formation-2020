@@ -4,6 +4,13 @@
 
 {% block body %}
     <h1>Liste des livres</h1>
+
+    <div class="mt-2 mb-2 text-right">
+        <a href="{{ path('book-new') }}" class="btn btn-primary">
+            Nouveau livre
+        </a>
+    </div>
+
     <table class="table table-bordered table-striped">
         <tr>
             <th>
@@ -11,6 +18,9 @@
             </th>
             <th>
                 Auteur
+            </th>
+            <th>
+                Actions
             </th>
         </tr>
 
@@ -20,6 +30,16 @@
                 <td>
                     <a href="{{ path('author-details', {'id': book.author.id}) }}">
                         {{ book.author }}
+                    </a>
+                </td>
+                <td>
+                    <a href="{{ path('book-delete', {'id': book.id}) }}"
+                    class="btn btn-danger btn-block">
+                        Supprimer
+                    </a>
+                    <a href="{{ path('book-update', {'id': book.id}) }}"
+                       class="btn btn-success btn-block mt-2">
+                        Modifier
                     </a>
                 </td>
             </tr>

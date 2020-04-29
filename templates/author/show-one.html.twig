@@ -7,6 +7,19 @@
  <h2>Ses éditeurs</h2>
 
  <!-- tableau des éditeurs qui ont publié l'auteur (avec le nombre de livres) -->
+ <table class="table table-striped">
+  <tr>
+   <th>Editeur</th>
+   <th>Nombre de livres</th>
+  </tr>
+
+  {% for publisher in publisherList %}
+    <tr>
+     <td>{{ publisher.name }}</td>
+     <td>{{ publisher.nbBooks }}</td>
+    </tr>
+  {% endfor %}
+ </table>
 
  <h2>Ses livres ({{ author.books | length }})</h2>
 

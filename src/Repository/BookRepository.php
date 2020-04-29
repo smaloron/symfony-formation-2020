@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Book;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -14,8 +15,11 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class BookRepository extends ServiceEntityRepository
 {
-    public function __construct(ManagerRegistry $registry)
+    private EntityManagerInterface $manager;
+
+    public function __construct(ManagerRegistry $registry, EntityManagerInterface $manager)
     {
+        $this->manager = $manager;
         parent::__construct($registry, Book::class);
     }
 
@@ -56,6 +60,13 @@ class BookRepository extends ServiceEntityRepository
             ->groupBy('b.genre');
 
         return $qb->getQuery();
+    }
+
+    public function getBooksNumberByYear(){
+        $sql = "SELECT YEAR(b.published_at) as yearPublished, count(b.id) as nbBooks
+                FROM book as b GROUP BY year(b.published_at)";
+        $recordSet = $this->manager->getConnection()->query($sql);
+        return $recordSet->fetchAll();
     }
 
     // /**
