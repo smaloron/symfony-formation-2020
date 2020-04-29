@@ -4,6 +4,10 @@
  <h1>{{ author }}</h1>
  <p>Né(e) le : {{ author.dateOfBirth | date('d/m/Y') }}</p>
 
+ <h2>Ses éditeurs</h2>
+
+ <!-- tableau des éditeurs qui ont publié l'auteur (avec le nombre de livres) -->
+
  <h2>Ses livres ({{ author.books | length }})</h2>
 
  <table class="table table-striped">

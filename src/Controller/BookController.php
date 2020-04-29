@@ -24,10 +24,10 @@ class BookController extends AbstractController
     {
         //Liste de tous les livres
         $repository = $this->getDoctrine()->getRepository("App:Book");
-        $data = $repository->findAllPaginated();
+        $query = $repository->findAllPaginated();
 
         $books = $paginator->paginate(
-            $data,
+            $query,
             $request->query->getInt('page', 1),
             10
         );
@@ -64,6 +64,28 @@ class BookController extends AbstractController
         return $this->render("book/form.html.twig", [
             //Envoie du formulaire au modèle Twig
             'bookForm' => $form->createView()
+        ]);
+    }
+
+    /**
+     * @Route("/test", name="book-test")
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function testQuery(BookRepository $repository){
+
+        $allBooks = $repository->findAllBooks("Essai");
+        $oldestBooks = $repository->findOldestBooksByGenre("Essai", 5);
+
+        $bookPricesByGenre = $repository->getBookPricesByGenre();
+
+        dump($oldestBooks->getSQL());
+        dump($oldestBooks->getDQL());
+
+
+        return $this->render("book/test-query.html.twig", [
+            'allBooks' => $allBooks->getResult(),
+            'oldestBooks' => $oldestBooks->getResult(),
+            'booksByGenre' => $bookPricesByGenre->getResult()
         ]);
     }
 }

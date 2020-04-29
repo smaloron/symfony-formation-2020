@@ -26,6 +26,38 @@ class BookRepository extends ServiceEntityRepository
             ->getQuery();
     }
 
+    public function findAllBooks($genre){
+        $qb = $this ->createQueryBuilder('b')
+                    ->select('b')
+                    ->where("b.genre=?1")
+                    ->orderBy('b.title', 'DESC')
+                    ->setParameter(1, $genre)
+                    ->setMaxResults(5);
+
+        return $qb->getQuery();
+    }
+
+    public function findOldestBooksByGenre($genre, $numberOfBooks){
+        $qb = $this ->createQueryBuilder('b')
+            ->select('b, a')
+            ->where("b.genre=?1")
+            ->andWhere("a.name='Hugo'")
+            ->innerJoin('b.author', 'a')
+            ->orderBy('b.publishedAt', 'ASC')
+            ->setParameter(1, $genre)
+            ->setMaxResults($numberOfBooks);
+
+        return $qb->getQuery();
+    }
+
+    public function getBookPricesByGenre(){
+        $qb = $this->createQueryBuilder('b')
+            ->select('b.genre, SUM(b.price) as total')
+            ->groupBy('b.genre');
+
+        return $qb->getQuery();
+    }
+
     // /**
     //  * @return Book[] Returns an array of Book objects
     //  */

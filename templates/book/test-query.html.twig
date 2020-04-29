@@ -1,0 +1,21 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+
+
+{% endblock %}
+
+{% block body %}
+    <h1>Test de requêtes avec le QueryBuilder </h1>
+
+    {{ dump(booksByGenre) }}
+
+    <ul>
+        {% for book in oldestBooks %}
+            <li>{{ book.title }}</li>
+        {% endfor %}
+    </ul>
+
+
+{% endblock %}
+
